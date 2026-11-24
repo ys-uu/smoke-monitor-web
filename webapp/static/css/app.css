@@ -1,0 +1,176 @@
+/* ===== 抽烟检测监控系统 · M1 骨架样式（橙色主题，投影友好字号） ===== */
+:root {
+  --brand: #f07a1a;
+  --brand-dark: #d9660c;
+  --brand-soft: #fff4ea;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --line: #e8ebf0;
+  --bg: #f4f6f9;
+  --ok-bg: #e8f8ee;
+  --ok-fg: #15803d;
+  --warn-bg: #fef3e2;
+  --warn-fg: #b45309;
+  --err-bg: #fdecec;
+  --err-fg: #b91c1c;
+  --radius: 12px;
+  --shadow: 0 2px 12px rgba(17, 24, 39, 0.07);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+code {
+  background: #f3f4f6;
+  border: 1px solid #e9edf2;
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  font-family: Consolas, "Cascadia Mono", monospace;
+  word-break: break-all;
+}
+
+/* ===== 顶部栏 ===== */
+.topbar {
+  background: linear-gradient(90deg, var(--brand-dark), var(--brand) 55%, #ff9a3d);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(217, 102, 12, 0.25);
+}
+.topbar-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-logo { font-size: 30px; line-height: 1; }
+.brand-title { font-size: 19px; font-weight: 700; letter-spacing: 0.5px; }
+.brand-sub { font-size: 12.5px; opacity: 0.92; margin-top: 2px; }
+.top-right { display: flex; align-items: center; gap: 12px; }
+.clock { font-size: 13.5px; font-variant-numeric: tabular-nums; opacity: 0.95; }
+
+.status-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.dot-ok { background: #4ade80; box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.25); }
+.dot-err { background: #f87171; box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.25); }
+.dot-muted { background: rgba(255, 255, 255, 0.7); }
+
+.badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.badge-ok { background: var(--ok-bg); color: var(--ok-fg); }
+.badge-warn { background: var(--warn-bg); color: var(--warn-fg); }
+.badge-err { background: var(--err-bg); color: var(--err-fg); }
+.badge-muted { background: rgba(255, 255, 255, 0.22); color: #fff; }
+
+/* ===== 标签导航 ===== */
+.tabbar { background: #fff; border-bottom: 1px solid var(--line); }
+.tabbar-inner { max-width: 1180px; margin: 0 auto; padding: 0 12px; display: flex; gap: 4px; overflow-x: auto; }
+.tab-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.tab-btn:hover:not(:disabled) { color: var(--brand-dark); }
+.tab-btn.active { color: var(--brand-dark); font-weight: 700; border-bottom-color: var(--brand); }
+.tab-btn:disabled { color: #b7bdc7; cursor: not-allowed; }
+.tag-p1 {
+  font-size: 11px;
+  background: #eef1f5;
+  color: #8a93a1;
+  border-radius: 5px;
+  padding: 1px 6px;
+  margin-left: 2px;
+}
+
+/* ===== 主体与卡片 ===== */
+.container { max-width: 1180px; margin: 22px auto; padding: 0 16px; }
+.tab-panel { animation: fade-in 0.18s ease-out; }
+@keyframes fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 22px;
+  margin-bottom: 18px;
+}
+.card h2 { font-size: 17px; margin: 0 0 14px; display: flex; align-items: center; gap: 10px; }
+.muted { color: var(--muted); font-size: 13.5px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+@media (max-width: 880px) { .grid-2 { grid-template-columns: 1fr; } }
+
+.milestone-tag {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--brand-dark);
+  background: var(--brand-soft);
+  border: 1px solid #ffd9b8;
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+
+.placeholder {
+  border: 1.5px dashed #f3bd8e;
+  background: var(--brand-soft);
+  border-radius: 10px;
+  padding: 16px 20px;
+  color: #7c4a1e;
+  line-height: 1.9;
+}
+.placeholder ul { margin: 8px 0 0; padding-left: 22px; }
+
+/* ===== 键值描述列表 ===== */
+.kv { display: grid; grid-template-columns: 110px 1fr; row-gap: 10px; column-gap: 14px; margin: 0; }
+.kv dt { color: var(--muted); font-size: 13.5px; }
+.kv dd { margin: 0; font-weight: 600; font-size: 14px; word-break: break-all; }
+
+/* ===== 步骤列表 ===== */
+.steps { margin: 0; padding-left: 22px; line-height: 2; font-size: 14px; }
+.steps code { white-space: normal; }
+
+.site-footer {
+  text-align: center;
+  color: #9aa3af;
+  font-size: 12.5px;
+  padding: 22px 16px 30px;
+}
+
+/* ===== M2：模型引擎自检 ===== */
+.selftest-row { display: flex; align-items: center; gap: 10px; margin: 12px 0 6px; flex-wrap: wrap; }
+.selftest-result {
+  background: #101418; color: #c9f7d4; border-radius: 8px;
+  padding: 12px 14px; font-size: 12.5px; line-height: 1.6;
+  white-space: pre-wrap; word-break: break-all; max-height: 260px; overflow: auto;
+}
+.btn {
+  border: none; border-radius: 8px; padding: 8px 16px; font-size: 14px;
+  cursor: pointer; font-weight: 600; transition: background .15s, opacity .15s;
+}
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn-outline { background: var(--brand-soft); color: var(--brand-dark); border: 1.5px solid #f3bd8e; }
+.btn-outline:hover:not(:disabled) { background: #ffe9d6; }

@@ -1,0 +1,40 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.tmp
+*.log
+.venv/
+venv/
+
+# ===== 密钥 / 本机环境变量（.env.example 可提交）=====
+.env
+
+# ===== 运行产物（保留目录占位 .gitkeep，忽略实际上传/快照/应急库）=====
+instance/
+data/web_events/*
+!data/web_events/.gitkeep
+data/web_uploads/*
+!data/web_uploads/.gitkeep
+data/batch_input/
+
+# ===== 离线回归 / 检查运行产物（不入库）=====
+runs/
+
+# ===== 迁移备份（M1 拆目录时的旧文件 zip 快照，确认稳定后可整体删除）=====
+_migration_backup/
+
+# ===== IDE / 操作系统 =====
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ===== drawio / Office 临时与备份文件 =====
+~$*
+.$*
+*.bkp
+
+# 说明：课设提交 zip 需包含 models/*.pt 与 samples/*.mp4，故默认不忽略它们。
+# 若日后改用 Git 且认为二进制文件过大，可取消下面注释，改为网盘 / Release 附件分发：
+# models/*.pt
+# samples/*.mp4

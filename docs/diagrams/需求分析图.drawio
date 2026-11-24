@@ -1,0 +1,643 @@
+<mxfile host="Electron" pages="4">
+  <diagram id="用例图" name="用例图">
+    <mxGraphModel dx="1280" dy="980" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1280" pageHeight="980" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c1" value="抽烟检测监控系统" style="swimlane;fontStyle=1;align=center;verticalAlign=top;startSize=34;html=1;fillColor=none;strokeColor=#F07A1A;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="150" y="40" width="980" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" value="监控操作员" style="shape=umlActor;verticalLabelPosition=right;verticalAlign=bottom;html=1;outlineConnect=0;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="55" y="430" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" value="系统管理员" style="shape=umlActor;verticalLabelPosition=left;verticalAlign=bottom;html=1;outlineConnect=0;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1195" y="430" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" value="UC-01 选择视频源 (样例/路径/上传/摄像头)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="210" y="100" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c2" target="c4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" value="UC-02 配置推理参数 (conf/IoU/投票/冷却等)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="210" y="182" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c2" target="c6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" value="UC-03 开始/停止监控会话" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="210" y="264" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c2" target="c8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" value="UC-04 查看实时画面与运行状态" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="210" y="346" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c2" target="c10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c12" value="UC-05 接收抽烟报警提示" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="210" y="428" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c2" target="c12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c14" value="UC-06 查询违规记录(筛选/分页)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="210" y="510" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c15" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c2" target="c14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c16" value="UC-07 审核事件(确认/误报标记)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="210" y="592" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c17" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c2" target="c16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" value="UC-08 删除违规事件" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="210" y="674" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c2" target="c18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c20" value="UC-09 导出违规记录 CSV" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="210" y="756" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c21" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c2" target="c20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c22" value="UC-10 模型引擎自检" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="770" y="100" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c23" value="UC-11 查看系统健康状态" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF2E6;strokeColor=#F07A1A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="770" y="182" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c24" value="UC-12 自动记录违规事件 (含报警快照)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E6F4FF;strokeColor=#4A90D9;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="770" y="428" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c25" value="UC-13 (P1)语音播报" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EEEEEE;strokeColor=#999999;fontColor=#666666;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="770" y="592" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c26" value="UC-14 (P1)切换检测模型" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EEEEEE;strokeColor=#999999;fontColor=#666666;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="770" y="674" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c27" value="UC-15 (P1)批量检测与统计图表" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EEEEEE;strokeColor=#999999;fontColor=#666666;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="770" y="756" width="210" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c28" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c3" target="c22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c29" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c3" target="c23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c30" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c3" target="c25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c31" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c3" target="c26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c32" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1" source="c3" target="c27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c33" value="说明：本用例由多帧投票 ALARM 自动触发， 无需人工发起，触发与冷却规则见 SD2。" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FFFBE6;strokeColor=#D9C46A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="770" y="500" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c34" value="«include»" style="endArrow=open;dashed=1;html=1;strokeColor=#888888;fontSize=11;edgeStyle=none;" edge="1" parent="1" source="c12" target="c24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="SD1-监控会话与实时推理" name="SD1-监控会话与实时推理">
+    <mxGraphModel dx="2108" dy="1138" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="1060" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c31" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" value="" vertex="1">
+          <mxGeometry height="840" width="12" x="334" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="c32" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" value="" vertex="1">
+          <mxGeometry height="790" width="12" x="614" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="c33" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" value="" vertex="1">
+          <mxGeometry height="100" width="12" x="894" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="c34" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" value="" vertex="1">
+          <mxGeometry height="40" width="12" x="1174" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" value="监控操作员" vertex="1">
+          <mxGeometry height="44" width="150" x="15" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="94" as="sourcePoint" />
+            <mxPoint x="90" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" value="浏览器前端" vertex="1">
+          <mxGeometry height="44" width="150" x="265" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="94" as="sourcePoint" />
+            <mxPoint x="340" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" value="Flask 后端" vertex="1">
+          <mxGeometry height="44" width="150" x="545" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="94" as="sourcePoint" />
+            <mxPoint x="620" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" value="推理引擎(YOLO)" vertex="1">
+          <mxGeometry height="44" width="150" x="825" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="900" y="94" as="sourcePoint" />
+            <mxPoint x="900" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" value="MJPEG 订阅" vertex="1">
+          <mxGeometry height="44" width="150" x="1105" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1180" y="94" as="sourcePoint" />
+            <mxPoint x="1180" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c11" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="1. 选择视频源、设置参数，点击“开始”">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="140" as="sourcePoint" />
+            <mxPoint x="340" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c12" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="2. POST /api/session/start(源+全部参数)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="190" as="sourcePoint" />
+            <mxPoint x="620" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c14" edge="1" parent="1" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" value="4. 返回 session_id 与 applied">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="290" as="sourcePoint" />
+            <mxPoint x="340" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c15" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="5. 连接 MJPEG 流，开始 1s 状态轮询">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="340" as="sourcePoint" />
+            <mxPoint x="620" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c18" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="6. process_frame(帧+参数)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="440" as="sourcePoint" />
+            <mxPoint x="900" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c20" edge="1" parent="1" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" value="8. 返回 JPEG、is_alarm 与票数">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="900" y="540" as="sourcePoint" />
+            <mxPoint x="620" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c24" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="10. 缓存最新帧并通知 MJPEG 订阅者">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="680" as="sourcePoint" />
+            <mxPoint x="1180" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c25" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="11. multipart 推送 JPEG">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1180" y="720" as="sourcePoint" />
+            <mxPoint x="340" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c27" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="13. 点击“停止”">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="830" as="sourcePoint" />
+            <mxPoint x="340" y="830" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c28" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="14. POST /api/session/stop">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="880" as="sourcePoint" />
+            <mxPoint x="620" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c30" edge="1" parent="1" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" value="16. 返回 200">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="980" as="sourcePoint" />
+            <mxPoint x="340" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c13" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="3. 校验参数、解析视频源，启动推理线程">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="705" y="232" />
+              <mxPoint x="705" y="260" />
+            </Array>
+            <mxPoint x="620" y="232" as="sourcePoint" />
+            <mxPoint x="620" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c16" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#888888;" value="" vertex="1">
+          <mxGeometry height="360" width="834" x="346" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="c17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#888888;fontSize=12;fontStyle=1;" value="loop [ 每一帧 ]" vertex="1">
+          <mxGeometry height="24" width="170" x="346" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="7. YOLO 检测、滑窗投票、绘制 HUD/ALARM">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="985" y="472" />
+              <mxPoint x="985" y="500" />
+            </Array>
+            <mxPoint x="900" y="472" as="sourcePoint" />
+            <mxPoint x="900" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#888888;" value="" vertex="1">
+          <mxGeometry height="100" width="269" x="614" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="c22" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#888888;fontSize=12;fontStyle=1;" value="alt [ is_alarm = true ]" vertex="1">
+          <mxGeometry height="24" width="150" x="614" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="c23" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="9. 进入事件记录流程(详见 SD2)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="705" y="592" />
+              <mxPoint x="705" y="618" />
+            </Array>
+            <mxPoint x="620" y="592" as="sourcePoint" />
+            <mxPoint x="620" y="618" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c26" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="12. 渲染画面、状态卡与报警横幅">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="425" y="752" />
+              <mxPoint x="425" y="780" />
+            </Array>
+            <mxPoint x="340" y="752" as="sourcePoint" />
+            <mxPoint x="340" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c29" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="15. 停止线程、释放 capture 与状态">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="705" y="912" />
+              <mxPoint x="705" y="940" />
+            </Array>
+            <mxPoint x="620" y="912" as="sourcePoint" />
+            <mxPoint x="620" y="940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="SD2-ALARM事件落库" name="SD2-ALARM事件落库">
+    <mxGraphModel dx="2108" dy="1138" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="950" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c28" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" value="" vertex="1">
+          <mxGeometry height="700" width="12" x="84" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="c29" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" value="" vertex="1">
+          <mxGeometry height="360" width="12" x="364" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="c30" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" value="" vertex="1">
+          <mxGeometry height="50" width="12" x="644" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="c31" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" value="" vertex="1">
+          <mxGeometry height="50" width="12" x="924" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="c32" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" value="" vertex="1">
+          <mxGeometry height="100" width="12" x="1174" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" value="推理线程" vertex="1">
+          <mxGeometry height="44" width="150" x="15" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="94" as="sourcePoint" />
+            <mxPoint x="90" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" value="事件记录器 (冷却状态机)" vertex="1">
+          <mxGeometry height="44" width="150" x="295" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="94" as="sourcePoint" />
+            <mxPoint x="370" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" value="文件系统" vertex="1">
+          <mxGeometry height="44" width="150" x="575" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="94" as="sourcePoint" />
+            <mxPoint x="650" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" value="MySQL" vertex="1">
+          <mxGeometry height="44" width="150" x="855" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="930" y="94" as="sourcePoint" />
+            <mxPoint x="930" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" value="浏览器前端" vertex="1">
+          <mxGeometry height="44" width="150" x="1105" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1180" y="94" as="sourcePoint" />
+            <mxPoint x="1180" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c11" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="1. is_alarm=true，请求记录评估">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="140" as="sourcePoint" />
+            <mxPoint x="370" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c14" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="2. 保存标注帧 JPEG(web_events/日期/uuid.jpg)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="220" as="sourcePoint" />
+            <mxPoint x="650" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c15" edge="1" parent="1" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" value="3. 返回快照相对路径">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="270" as="sourcePoint" />
+            <mxPoint x="90" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c16" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="4. INSERT detection_event(reason=alarm_start)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="320" as="sourcePoint" />
+            <mxPoint x="930" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c17" edge="1" parent="1" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" value="5. 返回事件 id">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="930" y="370" as="sourcePoint" />
+            <mxPoint x="90" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c20" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="6. heartbeat=true 补记 heartbeat；false 则跳过">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="450" as="sourcePoint" />
+            <mxPoint x="370" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c21" edge="1" parent="1" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" value="7. 返回记录决策">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="500" as="sourcePoint" />
+            <mxPoint x="90" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c24" edge="1" parent="1" style="endArrow=open;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;rounded=1;curved=0;" value="8. 跳过：不写库、不写图">
+          <mxGeometry relative="1" x="0.2045" y="-21" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="303.6" y="654" />
+              <mxPoint x="303.6" y="700.4" />
+            </Array>
+            <mxPoint x="96" y="654" as="sourcePoint" />
+            <mxPoint x="96" y="700.44" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c25" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="9. GET /api/session/status 轮询">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1180" y="740" as="sourcePoint" />
+            <mxPoint x="90" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c26" edge="1" parent="1" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" value="10. 返回 alarm/alarm_count/last_event_at">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="790" as="sourcePoint" />
+            <mxPoint x="1180" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#888888;" value="" vertex="1">
+          <mxGeometry height="477" width="842" x="88" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#888888;fontSize=12;fontStyle=1;" value="alt [ 首次报警 或 距上次记录 ≥ 冷却(默认10s) ]" vertex="1">
+          <mxGeometry height="24" width="330" x="85" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#888888;" value="" vertex="1">
+          <mxGeometry height="140" width="282" x="88" y="399" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#888888;fontSize=12;fontStyle=1;" value="alt [ 报警持续且到达冷却时间 ]" vertex="1">
+          <mxGeometry height="24" width="260" x="96" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="c23" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#888888;fontSize=12;fontStyle=1;" value="alt [ 不足冷却时间 ]" vertex="1">
+          <mxGeometry height="24" width="150" x="96" y="607" as="geometry" />
+        </mxCell>
+        <mxCell id="c27" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" value="11. 更新报警横幅与状态卡">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1265" y="822" />
+              <mxPoint x="1265" y="850" />
+            </Array>
+            <mxPoint x="1180" y="822" as="sourcePoint" />
+            <mxPoint x="1180" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c22" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#888888;align=left;verticalAlign=middle;" value="" vertex="1">
+          <mxGeometry height="107" width="274" x="96" y="607" as="geometry" />
+        </mxCell>
+        <mxCell id="azDzIEjO1W2CoOu_K13U-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Text" vertex="1">
+          <mxGeometry height="30" width="60" x="203" y="860" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="SD3-记录查询与CSV导出" name="SD3-记录查询与CSV导出">
+    <mxGraphModel dx="1350" dy="1070" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="1070" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c29" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" vertex="1" parent="1">
+          <mxGeometry x="364" y="140" width="12" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="c30" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" vertex="1" parent="1">
+          <mxGeometry x="674" y="190" width="12" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="c31" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" vertex="1" parent="1">
+          <mxGeometry x="974" y="240" width="12" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c32" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" vertex="1" parent="1">
+          <mxGeometry x="674" y="465" width="12" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c33" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" vertex="1" parent="1">
+          <mxGeometry x="674" y="605" width="12" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c34" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD9B3;strokeColor=#F07A1A;" vertex="1" parent="1">
+          <mxGeometry x="974" y="830" width="12" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" value="监控操作员" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="15" y="50" width="150" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="94" as="sourcePoint" />
+            <mxPoint x="90" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c3" value="浏览器前端" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="295" y="50" width="150" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="94" as="sourcePoint" />
+            <mxPoint x="370" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c5" value="Flask 后端" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="605" y="50" width="150" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="94" as="sourcePoint" />
+            <mxPoint x="680" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c7" value="MySQL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F07A1A;fontColor=#FFFFFF;strokeColor=#D96A10;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="905" y="50" width="150" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="980" y="94" as="sourcePoint" />
+            <mxPoint x="980" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c9" value="1. 打开违规记录页，设置筛选条件" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="140" as="sourcePoint" />
+            <mxPoint x="370" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c10" value="2. GET /api/events(分页/日期/源/状态)" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="190" as="sourcePoint" />
+            <mxPoint x="680" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c11" value="3. SELECT COUNT 与分页查询" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="240" as="sourcePoint" />
+            <mxPoint x="980" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c12" value="4. 返回事件行" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="980" y="290" as="sourcePoint" />
+            <mxPoint x="680" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c13" value="5. 返回 total 与 items" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="340" as="sourcePoint" />
+            <mxPoint x="370" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c17" value="7a. POST /events/id/label" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="465" as="sourcePoint" />
+            <mxPoint x="680" y="465" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c18" value="7b. UPDATE status/note" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="510" as="sourcePoint" />
+            <mxPoint x="980" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c21" value="8a. DELETE /events/id" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="605" as="sourcePoint" />
+            <mxPoint x="680" y="605" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c22" value="8b. 删除行并联动删除快照文件" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="650" as="sourcePoint" />
+            <mxPoint x="980" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c23" value="9. 点击“导出 CSV”" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="730" as="sourcePoint" />
+            <mxPoint x="370" y="730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c24" value="10. GET /api/events/export.csv" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="780" as="sourcePoint" />
+            <mxPoint x="680" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c25" value="11. 按筛选条件查询" style="endArrow=block;html=1;edgeStyle=none;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="830" as="sourcePoint" />
+            <mxPoint x="980" y="830" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c26" value="12. 返回结果集" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="980" y="880" as="sourcePoint" />
+            <mxPoint x="680" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c27" value="13. utf-8-sig 流式下载" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="930" as="sourcePoint" />
+            <mxPoint x="370" y="930" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c28" value="14. 保存 CSV，Excel 打开不乱码" style="endArrow=open;dashed=1;html=1;edgeStyle=none;strokeColor=#666666;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="980" as="sourcePoint" />
+            <mxPoint x="90" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c14" value="6. 渲染卡片墙、快照与分页" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="372" as="sourcePoint" />
+            <mxPoint x="370" y="400" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="455" y="372" />
+              <mxPoint x="455" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c15" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="330" y="420" width="700" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="c16" value="alt [ 审核标记 ]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#888888;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="420" width="130" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="330" y="560" width="700" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="c20" value="alt [ 删除事件 ]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#888888;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="560" width="130" height="24" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
