@@ -17,6 +17,8 @@ import os
 from pathlib import Path
 
 PROJ_ROOT = Path(__file__).resolve().parent.parent  # <Web 工程根>/smoke-monitor-web/
+FACE_WEIGHTS = PROJ_ROOT / "models" / "yolov8n-face.pt"
+CIG_WEIGHTS = PROJ_ROOT / "models" / "smoke_cig_clean_n960_e100_best.pt"
 
 
 def _parse_local_roots(raw: str, proj_root: Path):
@@ -42,7 +44,7 @@ def _parse_local_roots(raw: str, proj_root: Path):
 
 
 class Config:
-    VERSION = "0.1.1-m1.5"
+    VERSION = "0.2.0"
     SECRET_KEY = os.getenv("SMOKE_SECRET_KEY", "smoke-detection-local-dev-only")
 
     # ----- 数据库：默认本机 Docker MySQL；可用 SMOKE_DATABASE_URL 覆盖为应急 SQLite -----
@@ -82,13 +84,16 @@ class Config:
     # 要改参数先停止会话，修改后重新开始。
     DEFAULT_WEIGHTS = os.getenv(
         "SMOKE_DEFAULT_WEIGHTS",
-        str(PROJ_ROOT / "models" / "smoke_cig_det_clean_best.pt"),
+        str(CIG_WEIGHTS),
     )
-    DEFAULT_IMGSZ = int(os.getenv("SMOKE_DEFAULT_IMGSZ", "640"))
+    DEFAULT_FACE_WEIGHTS = os.getenv("SMOKE_FACE_WEIGHTS", str(FACE_WEIGHTS))
+    DEFAULT_FACE_CONF = float(os.getenv("SMOKE_FACE_CONF", "0.35"))
+    DEFAULT_IMGSZ = int(os.getenv("SMOKE_DEFAULT_IMGSZ", "960"))
     DEFAULT_CONF = float(os.getenv("SMOKE_DEFAULT_CONF", "0.35"))
     DEFAULT_IOU = float(os.getenv("SMOKE_DEFAULT_IOU", "0.70"))
-    DEFAULT_VOTE_WINDOW = int(os.getenv("SMOKE_VOTE_WINDOW", "4"))
-    DEFAULT_VOTE_THRESHOLD = int(os.getenv("SMOKE_VOTE_THRESHOLD", "2"))
+    DEFAULT_USE_VOTE = False
+    DEFAULT_VOTE_WINDOW = int(os.getenv("SMOKE_VOTE_WINDOW", "1"))
+    DEFAULT_VOTE_THRESHOLD = int(os.getenv("SMOKE_VOTE_THRESHOLD", "1"))
     # 推理设备：auto=有 CUDA 用 GPU、否则 CPU；也可显式 0 或 cpu（会话开始前固定）
     INFER_DEVICE = os.getenv("SMOKE_INFER_DEVICE", "auto")
     CAMERA_DEFAULT_INDEX = int(os.getenv("SMOKE_CAMERA_INDEX", "0"))

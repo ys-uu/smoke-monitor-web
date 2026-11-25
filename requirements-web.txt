@@ -17,3 +17,4 @@ python-dotenv==1.2.4
 # ----- AI 推理（dl-gpu 已装，此处仅登记运行所需版本，请勿在 Web 任务中随意升级）-----
 ultralytics==8.0.200
 opencv-python==4.10.0.84
+lapx==0.5.13

@@ -6,7 +6,7 @@
 然后浏览器访问终端提示的地址（默认 http://127.0.0.1:8010 ，端口见 deploy/mysql/.env 的 WEB_PORT）。
 
 注意：
-- debug=False、use_reloader=False，避免 Werkzeug reloader 起双进程重复加载 YOLO 模型；
+- debug=False、use_reloader=False，避免 Werkzeug reloader 起双进程重复加载 YOLO 模型
 - 仅绑定 127.0.0.1，不对局域网暴露；
 - 环境变量统一从 deploy/mysql/.env 加载（docker compose 也使用同一份文件）。
 """
@@ -48,4 +48,7 @@ if __name__ == "__main__":
     print("  若数据库未就绪，Web 仍会启动，可访问 /api/health 查看原因。")
     print("=" * 70)
     # threaded=True：MJPEG 长连接与 JSON 请求可并发；关闭 debug/reloader
-    app.run(host=host, port=port, threaded=True, debug=False, use_reloader=False)
+    try:
+        app.run(host=host, port=port, threaded=True, debug=False, use_reloader=False)
+    finally:
+        app.extensions["smoke_session"].stop()
