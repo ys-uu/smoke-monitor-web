@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""引擎单例与模型自检：把“加载 YOLO 权重”从 InferEngine 构造中单独管理，供 health / 自检接口复用。
-
-- 同一份 (weights_path, device, imgsz, conf, iou) 参数命中缓存时不重复加载；
-- 参数变化会替换引擎（M3 的“停止会话→改参→重启”复用这里，前端运行中不热更）；
-- 本模块只管理引擎对象，不读视频、不写文件、不碰数据库；投票状态仍按会话单独 new_vote_state。
-"""
+"""缓存两阶段引擎供监控与模型自检复用，投票状态由各会话独立维护。"""
 from __future__ import annotations
 
 import threading
@@ -18,7 +13,8 @@ _KEY: tuple | None = None
 
 
 def _key(params: InferParams) -> tuple:
-    return (params.weights_path, params.device, params.imgsz, params.conf, params.iou)
+    return (params.weights_path, params.face_weights_path, params.face_conf,
+            params.device, params.imgsz, params.conf, params.iou)
 
 
 def get_engine(params: InferParams) -> InferEngine:
@@ -41,8 +37,8 @@ def model_brief() -> dict:
     """给 /api/health 使用：只读缓存状态，不触发加载。"""
     e = _ENGINE
     if e is None:
-        return {"loaded": False, "name": "", "device": ""}
-    return {"loaded": True, "name": e.model_name, "device": e.device_desc}
+        return {"loaded": False, "name": "", "face_name": "", "device": ""}
+    return {"loaded": True, "name": e.model_name, "face_name": e.face_model_name, "device": e.device_desc}
 
 
 def selftest(app) -> dict:
@@ -53,10 +49,13 @@ def selftest(app) -> dict:
     started = time.time()
     p = InferParams(
         weights_path=app.config["DEFAULT_WEIGHTS"],
+        face_weights_path=app.config["DEFAULT_FACE_WEIGHTS"],
+        face_conf=app.config["DEFAULT_FACE_CONF"],
         device=app.config.get("INFER_DEVICE", "auto"),
         imgsz=app.config["DEFAULT_IMGSZ"],
         conf=app.config["DEFAULT_CONF"],
         iou=app.config["DEFAULT_IOU"],
+        use_vote=app.config["DEFAULT_USE_VOTE"],
         vote_window=app.config["DEFAULT_VOTE_WINDOW"],
         vote_threshold=app.config["DEFAULT_VOTE_THRESHOLD"],
     )
@@ -66,9 +65,10 @@ def selftest(app) -> dict:
     return {
         "ok": True,
         "model_name": engine.model_name,
+        "face_model_name": engine.face_model_name,
         "weights_path": p.weights_path,
         "device": engine.device_desc,
         "elapsed_ms": elapsed_ms,
         "params": p.to_dict(),
-        "message": f"模型 {engine.model_name} 加载并预热成功（{engine.device_desc}），M2 引擎可用。",
+        "message": f"两阶段预热成功：{engine.face_model_name} → {engine.model_name}（{engine.device_desc}）。",
     }

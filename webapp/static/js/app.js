@@ -1,4 +1,4 @@
-/* 抽烟检测监控系统 · M1 骨架脚本：标签切换 + /api/health 轮询 + 顶部时钟（原生 JS，无第三方依赖） */
+/* 标签导航、健康检查和模型自检 */
 (function () {
   "use strict";
 
@@ -13,7 +13,7 @@
     if (el) { el.textContent = text; }
   }
 
-  /* ---------- 标签页切换（disabled 的 P1 标签不切换） ---------- */
+  /* ---------- 标签页切换 ---------- */
   $all(".tab-btn").forEach(function (btn) {
     btn.addEventListener("click", function () {
       if (btn.disabled) { return; }
@@ -22,6 +22,7 @@
       $all(".tab-panel").forEach(function (panel) {
         panel.hidden = panel.id !== "panel-" + target;
       });
+      document.dispatchEvent(new CustomEvent("smoke-tab", { detail: target }));
     });
   });
 
@@ -87,7 +88,7 @@
     setText("#h-version", d.version || "-");
     setText("#h-addr", (d.web_host || "-") + ":" + (d.web_port || "-"));
     setText("#h-model", d.model_loaded
-      ? ("已加载 " + (d.model_name || "") + "（" + (d.model_device || "-") + "）")
+      ? ("已加载 " + d.face_model_name + " → " + d.model_name + "（" + d.model_device + "）")
       : "未加载（可点击“模型引擎自检”）");
   }
 
@@ -100,7 +101,7 @@
       selftestBtn.textContent = "自检中…";
       if (selftestOut) {
         selftestOut.hidden = false;
-        selftestOut.textContent = "正在加载权重并预热，请稍候（数秒）…";
+        selftestOut.textContent = "正在加载并预热两个检测模型…";
       }
       try {
         var resp = await fetch("/api/engine/selftest", { method: "POST" });
@@ -111,7 +112,7 @@
             selftestOut.textContent = "✅ " + d.message + "\n耗时 " + d.elapsed_ms + " ms；默认参数见下：\n" +
               JSON.stringify(d.params, null, 2);
           }
-          setText("#h-model", "已加载 " + d.model_name + "（" + d.device + "）");
+          setText("#h-model", "已加载 " + d.face_model_name + " → " + d.model_name + "（" + d.device + "）");
         } else {
           if (selftestOut) { selftestOut.textContent = "❌ " + (json.msg || "自检失败"); }
         }

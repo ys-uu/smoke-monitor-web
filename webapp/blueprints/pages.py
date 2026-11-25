@@ -30,7 +30,7 @@ def index():
 
 @bp.get("/api/health")
 def health():
-    """健康检查：实时 SELECT 1 探活数据库；模型状态来自引擎缓存（M2 自检后可见）。"""
+    """实时检查数据库并读取两阶段模型的缓存状态。"""
     from ..services.engine_holder import model_brief
 
     driver = _db_driver()
@@ -61,6 +61,7 @@ def health():
             "db_error": db_error,
             "model_loaded": brief["loaded"],
             "model_name": brief["name"],
+            "face_model_name": brief["face_name"],
             "model_device": brief["device"],
             "web_host": current_app.config.get("WEB_HOST"),
             "web_port": current_app.config.get("WEB_PORT"),
@@ -72,7 +73,7 @@ def health():
 
 @bp.post("/api/engine/selftest")
 def engine_selftest():
-    """M2 引擎自检：加载默认权重 + 预热，返回设备/耗时/参数；失败返回明确原因。"""
+    """自检默认人脸和香烟模型，返回设备、耗时和推理参数。"""
     from ..services.engine_holder import selftest
 
     try:
