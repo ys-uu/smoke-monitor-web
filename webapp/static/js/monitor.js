@@ -13,9 +13,12 @@ const startButton = byId("monitor-start");
 const stopButton = byId("monitor-stop");
 const sourceFeedback = byId("source-feedback");
 const actionFeedback = byId("monitor-feedback");
+const stage1Model = byId("stage1-model");
+const stage2Model = byId("stage2-model");
 const sessions = { idle: "待启动", starting: "正在加载模型", running: "监控中", stopping: "正在停止", ended: "播放完毕", error: "运行异常" };
-const numericSettings = ["conf", "iou", "imgsz", "cooldown", "vote_window", "vote_threshold"];
+const numericSettings = ["conf", "iou", "imgsz", "cooldown", "vote_window", "vote_threshold", "expand_pad", "alarm_hold_frames"];
 const toggleSettings = ["heartbeat", "save_snapshot", "loop", "use_vote"];
+const kindSettings = ["stage1_model", "stage2_model"];   // 字符串型选择，不做 Number 转换
 let defaults;
 let uploadId;
 let status = { state: "idle", running: false };
@@ -58,6 +61,25 @@ function updateVoteLimit() {
   if (threshold.valueAsNumber > windowSize) threshold.value = windowSize;
 }
 
+function fillModelSelects() {
+  // 一阶段：按 face / head 用 optgroup 分组，value 携带 "kind/文件名"，后端据此选择检测器
+  const groupLabels = { face: "人脸检测", head: "头部检测（含侧脸/背面）" };
+  stage1Model.replaceChildren();
+  for (const kind of ["face", "head"]) {
+    const items = defaults.stage1_models.filter((item) => item.kind === kind);
+    if (!items.length) continue;
+    const group = document.createElement("optgroup");
+    group.label = groupLabels[kind];
+    group.replaceChildren(...items.map((item) => new Option(item.file, item.value)));
+    stage1Model.add(group);
+  }
+  if (!defaults.stage1_models.length) stage1Model.add(new Option("没有可用模型", ""));
+
+  // 二阶段：直接平铺香烟模型
+  stage2Model.replaceChildren(...defaults.stage2_models.map((item) => new Option(item.file, item.value)));
+  if (!defaults.stage2_models.length) stage2Model.add(new Option("没有可用模型", ""));
+}
+
 function displayFrame() {
   const show = visible && status.has_frame && status.state !== "idle";
   if (!show) {
@@ -83,6 +105,7 @@ function setFormSettings(settings) {
     input.value = value;
   }
   for (const name of toggleSettings) form.elements[name].checked = Boolean(settings[name]);
+  for (const name of kindSettings) form.elements[name].value = settings[name] ?? "";
   updateVoteLimit();
 }
 
@@ -105,6 +128,7 @@ function renderSession(data) {
     if (lockedSession === undefined) {
       draftSettings = Object.fromEntries(numericSettings.map((name) => [name, form.elements[name].value]));
       for (const name of toggleSettings) draftSettings[name] = form.elements[name].checked;
+      for (const name of kindSettings) draftSettings[name] = form.elements[name].value;
     }
     setFormSettings(data);
     lockedSession = data.session_id;
@@ -148,6 +172,7 @@ form.addEventListener("submit", (event) => {
   const body = { source_type: kind, source: values[kind] };
   numericSettings.forEach((name) => { body[name] = Number(form.elements[name].value); });
   toggleSettings.forEach((name) => { body[name] = form.elements[name].checked; });
+  kindSettings.forEach((name) => { body[name] = form.elements[name].value; });
   if (!body.use_vote) {
     body.vote_window = 1;
     body.vote_threshold = 1;
@@ -249,7 +274,11 @@ async function loadDefaults() {
     else if (defaults.samples.some(({ name }) => name === "smoke_test2.mp4")) samples.value = "smoke_test2.mp4";
     form.elements.camera.value = defaults.camera_default;
     uploadInput.accept = defaults.exts.join(",");
-    setFormSettings({ ...defaults, save_snapshot: true, loop: false });
+    fillModelSelects();
+    setFormSettings({
+      ...defaults, save_snapshot: true, loop: false,
+      stage1_model: defaults.stage1_default, stage2_model: defaults.stage2_default,
+    });
     updateSource();
   } catch (error) {
     feedback(actionFeedback, `无法读取监控配置：${error.message}`, "error");

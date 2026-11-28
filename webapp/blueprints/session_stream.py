@@ -1,6 +1,7 @@
 from flask import Blueprint, Response, current_app, request
 
 from ..api import ApiError, api_ok, json_object
+from ..services.model_catalog import resolve_stage1, resolve_stage2
 from ..services.source_resolver import resolve_source
 
 bp = Blueprint("session_stream", __name__)
@@ -34,6 +35,30 @@ def _settings(body, config):
         if type(value) is not bool:
             raise ApiError(f"{key} 必须为布尔值")
         settings[key] = value
+
+    # 模型选择：一阶段（face/head 由所选子目录推断）与二阶段，校验白名单并解析为绝对路径
+    stage1_choice = body.get("stage1_model", config["DEFAULT_STAGE1_CHOICE"])
+    stage2_choice = body.get("stage2_model", config["DEFAULT_STAGE2_CHOICE"])
+    detector_kind, stage1_weights = resolve_stage1(stage1_choice, config)
+    stage2_weights = resolve_stage2(stage2_choice, config)
+    # 同时保留前端原始 value（供状态回传回填）与解析后的绝对路径（供构建引擎）
+    settings["stage1_model"] = stage1_choice
+    settings["stage2_model"] = stage2_choice
+    settings["detector_kind"] = detector_kind
+    settings["stage1_weights"] = stage1_weights
+    settings["stage2_weights"] = stage2_weights
+
+    # 第一阶段 ROI 固定像素外扩
+    expand_pad = body.get("expand_pad", config["DEFAULT_EXPAND_PAD"])
+    if type(expand_pad) is not int or not config["EXPAND_PAD_MIN"] <= expand_pad <= config["EXPAND_PAD_MAX"]:
+        raise ApiError(f"外扩像素必须是 {config['EXPAND_PAD_MIN']} 到 {config['EXPAND_PAD_MAX']} 之间的整数")
+    settings["expand_pad"] = expand_pad
+
+    # 报警红框保持帧数
+    hold_frames = body.get("alarm_hold_frames", config["DEFAULT_ALARM_HOLD_FRAMES"])
+    if type(hold_frames) is not int or not config["ALARM_HOLD_MIN"] <= hold_frames <= config["ALARM_HOLD_MAX"]:
+        raise ApiError(f"红框保持帧数必须是 {config['ALARM_HOLD_MIN']} 到 {config['ALARM_HOLD_MAX']} 之间的整数")
+    settings["alarm_hold_frames"] = hold_frames
     return settings
 
 

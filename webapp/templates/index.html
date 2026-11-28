@@ -99,6 +99,18 @@
             </div>
             <p id="source-feedback" class="feedback" role="status" hidden></p>
 
+            <fieldset class="model-select">
+              <legend>模型选择</legend>
+              <div class="field-grid">
+                <label class="field">一阶段模型（人脸 / 头部）
+                  <select id="stage1-model" name="stage1_model" required></select>
+                </label>
+                <label class="field">二阶段模型（香烟）
+                  <select id="stage2-model" name="stage2_model" required></select>
+                </label>
+              </div>
+            </fieldset>
+
             <details class="parameters" open>
               <summary>检测参数</summary>
               <div class="field-grid">
@@ -110,6 +122,8 @@
                 <label class="field">冷却时间 (秒)<input name="cooldown" type="number" min="5" max="300" step="any" value="10" required></label>
                 <label class="field">投票窗口<input name="vote_window" type="number" min="1" max="15" step="1" value="1" required disabled></label>
                 <label class="field">投票阈值<input name="vote_threshold" type="number" min="1" max="1" step="1" value="1" required disabled></label>
+                <label class="field">ROI 外扩像素<input name="expand_pad" type="number" min="0" max="200" step="1" value="15" required></label>
+                <label class="field">红框保持帧数<input name="alarm_hold_frames" type="number" min="0" max="120" step="1" value="12" required></label>
               </div>
               <div class="checkbox-row">
                 <label><input name="use_vote" type="checkbox"> 启用按跟踪 ID 投票</label>

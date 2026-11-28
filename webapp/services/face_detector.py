@@ -11,7 +11,6 @@ from .model_loader import load_yolo
 
 Box = tuple[int, int, int, int]
 FACE_IMGSZ = 640
-EXPAND_RATIO = 0.30
 
 
 @dataclass(frozen=True)
@@ -44,7 +43,7 @@ class FaceDetector:
         return self.model.predict(frame, imgsz=FACE_IMGSZ, conf=self.confidence,
                                   device=self.device, verbose=False)[0].boxes
 
-    def detect(self, frame, tracker) -> list[FaceRegion]:
+    def detect(self, frame, tracker, expand_pad: int) -> list[FaceRegion]:
         boxes = self.predict(frame)
         if boxes is None or not len(boxes):
             return []
@@ -60,17 +59,19 @@ class FaceDetector:
         height, width = frame.shape[:2]
         regions = []
         for coordinates, track_id in observations:
-            region = face_region(coordinates, track_id, width, height)
+            region = face_region(coordinates, track_id, width, height, expand_pad)
             if region is not None:
                 regions.append(region)
         return regions
 
 
-def face_region(coordinates, track_id: int | None, width: int, height: int) -> FaceRegion | None:
+def face_region(coordinates, track_id: int | None, width: int, height: int,
+                expand_pad: int) -> FaceRegion | None:
     x1, y1, x2, y2 = map(int, coordinates)
     if x2 <= x1 or y2 <= y1:
         return None
-    pad_x, pad_y = int((x2 - x1) * EXPAND_RATIO), int((y2 - y1) * EXPAND_RATIO)
+    # 固定像素外扩（宽高同一值），不随框大小变化，再裁剪到画面边界
+    pad_x = pad_y = int(expand_pad)
     roi = (max(0, x1 - pad_x), max(0, y1 - pad_y), min(width, x2 + pad_x), min(height, y2 + pad_y))
     if roi[2] - roi[0] < 4 or roi[3] - roi[1] < 4:
         return None
