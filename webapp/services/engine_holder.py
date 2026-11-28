@@ -13,7 +13,8 @@ _KEY: tuple | None = None
 
 
 def _key(params: InferParams) -> tuple:
-    return (params.weights_path, params.face_weights_path, params.face_conf,
+    return (params.detector_kind, params.weights_path, params.face_weights_path, params.face_conf,
+            params.head_weights_path, params.head_conf, params.expand_pad, params.alarm_hold_frames,
             params.device, params.imgsz, params.conf, params.iou)
 
 
@@ -48,9 +49,14 @@ def selftest(app) -> dict:
     """
     started = time.time()
     p = InferParams(
+        detector_kind=app.config.get("DEFAULT_DETECTOR_KIND", "face"),
         weights_path=app.config["DEFAULT_WEIGHTS"],
         face_weights_path=app.config["DEFAULT_FACE_WEIGHTS"],
         face_conf=app.config["DEFAULT_FACE_CONF"],
+        head_weights_path=app.config["DEFAULT_HEAD_WEIGHTS"],
+        head_conf=app.config["DEFAULT_HEAD_CONF"],
+        expand_pad=app.config["DEFAULT_EXPAND_PAD"],
+        alarm_hold_frames=app.config["DEFAULT_ALARM_HOLD_FRAMES"],
         device=app.config.get("INFER_DEVICE", "auto"),
         imgsz=app.config["DEFAULT_IMGSZ"],
         conf=app.config["DEFAULT_CONF"],

@@ -13,6 +13,7 @@ import numpy as np
 import torch
 from ..config import FACE_WEIGHTS
 from .face_detector import FaceDetector, FaceRegion, new_face_tracker
+from .head_detector import HeadDetector
 from .model_loader import load_yolo
 
 # 首次加载 / CPU 路径时限制 CPU 线程，避免 torch 把笔记本核占满影响其他进程
@@ -47,6 +48,14 @@ class InferParams:
     vote_threshold: int = 1
     face_weights_path: str = str(FACE_WEIGHTS)
     face_conf: float = 0.35
+    # 第一阶段检测器类型：face=人脸（默认，向后兼容）/ head=整个头部（含侧脸、背面）
+    detector_kind: str = "face"
+    head_weights_path: str = ""   # detector_kind="head" 时使用的头部权重
+    head_conf: float = 0.35
+    # 第一阶段 ROI 固定像素外扩（不随框大小变化），前端可调
+    expand_pad: int = 15
+    # 报警红框保持帧数：报警后短暂漏检仍保持红框，避免逐帧闪烁；0=关闭
+    alarm_hold_frames: int = 12
 
     def validate(self) -> None:
         if not (0.01 <= self.conf <= 1.0):
@@ -61,10 +70,22 @@ class InferParams:
             raise ValueError("vote_threshold 应在 [1, vote_window] 范围")
         if not self.weights_path:
             raise ValueError("weights_path 不能为空")
-        if not self.face_weights_path:
-            raise ValueError("face_weights_path 不能为空")
-        if not (0.01 <= self.face_conf <= 1.0):
-            raise ValueError("face_conf 应在 [0.01, 1.0] 范围")
+        if self.detector_kind not in ("face", "head"):
+            raise ValueError("detector_kind 只能是 face 或 head")
+        if self.detector_kind == "face":
+            if not self.face_weights_path:
+                raise ValueError("face_weights_path 不能为空")
+            if not (0.01 <= self.face_conf <= 1.0):
+                raise ValueError("face_conf 应在 [0.01, 1.0] 范围")
+        else:
+            if not self.head_weights_path:
+                raise ValueError("head_weights_path 不能为空")
+            if not (0.01 <= self.head_conf <= 1.0):
+                raise ValueError("head_conf 应在 [0.01, 1.0] 范围")
+        if not (0 <= self.expand_pad <= 200):
+            raise ValueError("expand_pad 应在 [0, 200] 范围")
+        if not (0 <= self.alarm_hold_frames <= 120):
+            raise ValueError("alarm_hold_frames 应在 [0, 120] 范围")
 
     def to_dict(self) -> dict:
         return {
@@ -73,6 +94,12 @@ class InferParams:
             "face_weights_path": self.face_weights_path,
             "face_model_name": Path(self.face_weights_path).name,
             "face_conf": self.face_conf,
+            "detector_kind": self.detector_kind,
+            "head_weights_path": self.head_weights_path,
+            "head_model_name": Path(self.head_weights_path).name if self.head_weights_path else "",
+            "head_conf": self.head_conf,
+            "expand_pad": self.expand_pad,
+            "alarm_hold_frames": self.alarm_hold_frames,
             "device": self.device,
             "imgsz": self.imgsz,
             "conf": self.conf,
@@ -90,29 +117,55 @@ class VoteState:
     window: int
     threshold: int
     tracker: object
+    hold_frames: int = 0          # 报警红框保持帧数（0=不保持，回到逐帧判定）
     frame_index: int = 1
     fps_ema: float = 0.0
     histories: dict[int, deque] = field(default_factory=dict)
+    alarm_hold: dict[int, int] = field(default_factory=dict)   # track_id -> 最近一次报警帧号
 
     def update(self, observations: list[tuple[int | None, bool]]) -> list[tuple[int, bool]]:
-        if not self.use_vote:
-            return [(int(has_cig), has_cig) for _, has_cig in observations]
-
+        # 第一步：按是否启用投票，算出每个区域当前帧的 (票数, 投票判定)，并收集在场 ID
         active = set()
-        votes = []
+        voted: list[tuple[int | None, int, bool]] = []
         for track_id, has_cig in observations:
-            count = int(has_cig)
             if track_id is not None:
                 active.add(track_id)
-                if track_id not in self.histories:
-                    self.histories[track_id] = deque(maxlen=self.window)
-                history = self.histories[track_id]
-                history.append(count)
-                count = sum(history)
-            votes.append((count, count >= self.threshold))
-        for track_id in self.histories.keys() - active:
-            del self.histories[track_id]
-        return votes
+            if self.use_vote:
+                count = int(has_cig)
+                if track_id is not None:
+                    if track_id not in self.histories:
+                        self.histories[track_id] = deque(maxlen=self.window)
+                    history = self.histories[track_id]
+                    history.append(count)
+                    count = sum(history)
+                voted.append((track_id, count, count >= self.threshold))
+            else:
+                voted.append((track_id, int(has_cig), bool(has_cig)))
+        if self.use_vote:
+            for track_id in self.histories.keys() - active:
+                del self.histories[track_id]
+
+        # 第二步：报警滞回（hold）——当前帧报警则刷新保持帧，短暂漏检且在保持期内仍判报警
+        results = [(count, self._apply_hold(track_id, is_alarm))
+                   for track_id, count, is_alarm in voted]
+        # 已离开画面的跟踪 ID 不再需要保持
+        for track_id in self.alarm_hold.keys() - active:
+            del self.alarm_hold[track_id]
+        return results
+
+    def _apply_hold(self, track_id: int | None, is_alarm: bool) -> bool:
+        # 无跟踪 ID 无法跨帧保持，直接按当前帧判定
+        if track_id is None:
+            return is_alarm
+        if is_alarm:
+            self.alarm_hold[track_id] = self.frame_index
+            return True
+        last_alarm = self.alarm_hold.get(track_id)
+        # 保持期内（当前帧与最近报警帧间隔不超过 hold_frames）延续报警，否则退出
+        if last_alarm is not None and self.frame_index - last_alarm <= self.hold_frames:
+            return True
+        self.alarm_hold.pop(track_id, None)
+        return False
 
 
 # ---------- 绘制（只修改传入 frame，不做任何 IO） ----------
@@ -182,7 +235,11 @@ class InferEngine:
         if not weight.is_file():
             raise FileNotFoundError(f"未找到香烟检测权重: {weight}")
         self.model_name = weight.name
-        self.face_detector = FaceDetector(params.face_weights_path, params.face_conf, self.device)
+        # 第一阶段：head 模式用整个头部检测器（含侧脸/背面），否则用原人脸检测器
+        if params.detector_kind == "head":
+            self.face_detector = HeadDetector.build(params.head_weights_path, params.head_conf, self.device)
+        else:
+            self.face_detector = FaceDetector(params.face_weights_path, params.face_conf, self.device)
         self.face_model_name = self.face_detector.model_name
         self.model = load_yolo(weight)
         # 预热一次，避免首帧明显卡顿；M3 加载失败可返回明确错误给前端
@@ -247,7 +304,7 @@ class InferEngine:
         - draw=False 时仅推理，返回的 JPEG 为原图（仍带检测信息，供未来“无框画面”选项使用）。
         """
         t0 = time.perf_counter()
-        faces = self.face_detector.detect(frame, state.tracker)
+        faces = self.face_detector.detect(frame, state.tracker, self.params.expand_pad)
         # The reference script draws each ROI guide before extracting that crop.
         marked = frame.copy() if draw or faces else frame
         boxes = self._detect_cigarettes(marked, faces)
@@ -294,4 +351,5 @@ class InferEngine:
 
 def new_vote_state(params: InferParams) -> VoteState:
     """每个会话/视频源创建一份新的投票状态（避免跨会话累计）。"""
-    return VoteState(params.use_vote, params.vote_window, params.vote_threshold, new_face_tracker())
+    return VoteState(params.use_vote, params.vote_window, params.vote_threshold,
+                     new_face_tracker(), hold_frames=params.alarm_hold_frames)

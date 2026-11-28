@@ -185,6 +185,8 @@ code {
 .parameters { border-block: 1px solid var(--line); margin: 17px 0; padding: 11px 0; }
 .parameters summary { font-weight: 700; cursor: pointer; }
 .parameters[open] summary { margin-bottom: 12px; }
+.controls-card .model-select { border-block: 1px solid var(--line); margin: 17px 0; padding: 11px 0; }
+.controls-card .model-select legend { margin-bottom: 12px; }
 .checkbox-row { display: grid; gap: 7px; font-size: .875rem; }
 .checkbox-row label { display: flex; align-items: center; gap: 7px; }
 .checkbox-row input { margin: 0; accent-color: #ac4a0d; }

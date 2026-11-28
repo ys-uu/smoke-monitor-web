@@ -3,6 +3,7 @@ from pathlib import Path
 from flask import Blueprint, current_app, request
 
 from ..api import ApiError, api_ok, json_object
+from ..services.model_catalog import list_stage1_models, list_stage2_models
 from ..services.source_resolver import list_samples, probe_video, resolve_source, save_upload
 
 bp = Blueprint("sources", __name__)
@@ -15,6 +16,14 @@ def defaults():
         "conf": config["DEFAULT_CONF"], "iou": config["DEFAULT_IOU"], "imgsz": config["DEFAULT_IMGSZ"],
         "use_vote": config["DEFAULT_USE_VOTE"], "vote_window": config["DEFAULT_VOTE_WINDOW"],
         "vote_threshold": config["DEFAULT_VOTE_THRESHOLD"],
+        "stage1_models": list_stage1_models(config),
+        "stage2_models": list_stage2_models(config),
+        "stage1_default": config["DEFAULT_STAGE1_CHOICE"],
+        "stage2_default": config["DEFAULT_STAGE2_CHOICE"],
+        "expand_pad": config["DEFAULT_EXPAND_PAD"],
+        "expand_pad_min": config["EXPAND_PAD_MIN"], "expand_pad_max": config["EXPAND_PAD_MAX"],
+        "alarm_hold_frames": config["DEFAULT_ALARM_HOLD_FRAMES"],
+        "alarm_hold_min": config["ALARM_HOLD_MIN"], "alarm_hold_max": config["ALARM_HOLD_MAX"],
         "cooldown": config["EVENT_COOLDOWN_SEC"], "heartbeat": config["EVENT_HEARTBEAT_ENABLED"],
         "samples": list_samples(config), "camera_default": config["CAMERA_DEFAULT_INDEX"],
         "exts": sorted(config["ALLOWED_VIDEO_EXTS"]), "upload_max_mb": config["MAX_UPLOAD_MB"],

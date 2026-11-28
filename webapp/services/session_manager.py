@@ -3,7 +3,6 @@ from __future__ import annotations
 import threading
 import time
 from dataclasses import dataclass, field
-from pathlib import Path
 
 from ..api import ApiError
 from .event_recorder import EventRecorder
@@ -111,11 +110,17 @@ class SessionManager:
 
             source, settings = session.source, session.settings
             config = self.app.config
-            weights = Path(config["DEFAULT_WEIGHTS"]).expanduser()
+            detector_kind = settings["detector_kind"]
+            stage1_weights = settings["stage1_weights"]
             params = InferParams(
-                weights_path=str(weights), device=config["INFER_DEVICE"],
-                face_weights_path=config["DEFAULT_FACE_WEIGHTS"], face_conf=config["DEFAULT_FACE_CONF"],
-                **{key: settings[key] for key in ("conf", "iou", "imgsz", "use_vote", "vote_window", "vote_threshold")},
+                detector_kind=detector_kind,
+                weights_path=settings["stage2_weights"], device=config["INFER_DEVICE"],
+                face_weights_path=stage1_weights if detector_kind == "face" else config["DEFAULT_FACE_WEIGHTS"],
+                face_conf=config["DEFAULT_FACE_CONF"],
+                head_weights_path=stage1_weights if detector_kind == "head" else config["DEFAULT_HEAD_WEIGHTS"],
+                head_conf=config["DEFAULT_HEAD_CONF"],
+                **{key: settings[key] for key in ("conf", "iou", "imgsz", "use_vote", "vote_window",
+                                                   "vote_threshold", "expand_pad", "alarm_hold_frames")},
             )
             capture = cv2.VideoCapture(source.capture_input)
             if not capture.isOpened():

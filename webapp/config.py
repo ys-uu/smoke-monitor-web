@@ -3,7 +3,8 @@
 
 工程定位：本文件属于独立 Web 应用工程 smoke-monitor-web（Flask + 原生 JS + MySQL）。
 目录约定（webapp/config.py 上两级 = Web 工程根）：
-- models/                         随 Web 工程自包含的检测权重（.pt）
+- models/stage1/face、models/stage1/head   一阶段人脸/头部检测权重（.pt）
+- models/stage2/                          二阶段香烟检测权重（.pt），目录内新增模型后前端下拉自动同步
 - samples/                        随 Web 工程自包含的样例视频
 - data/web_events、web_uploads/   运行时违规快照与上传文件
 - deploy/mysql/.env               docker compose 与 run_web.py 共用的环境变量文件
@@ -17,8 +18,18 @@ import os
 from pathlib import Path
 
 PROJ_ROOT = Path(__file__).resolve().parent.parent  # <Web 工程根>/smoke-monitor-web/
-FACE_WEIGHTS = PROJ_ROOT / "models" / "yolov8n-face.pt"
-CIG_WEIGHTS = PROJ_ROOT / "models" / "smoke_cig_clean_n960_e100_best.pt"
+# 模型分阶段目录：一阶段（人脸/头部）与二阶段（香烟）分开，目录内新增 .pt 后前端可选项自动同步
+MODELS_DIR = PROJ_ROOT / "models"
+STAGE1_DIR = MODELS_DIR / "stage1"
+FACE_DIR = STAGE1_DIR / "face"
+HEAD_DIR = STAGE1_DIR / "head"
+STAGE2_DIR = MODELS_DIR / "stage2"
+FACE_WEIGHTS = FACE_DIR / "yolov8n-face.pt"
+HEAD_WEIGHTS = HEAD_DIR / "head_crowdhuman_best.pt"   # 整个头部检测（CrowdHuman 自训，含侧脸/背面）
+CIG_WEIGHTS = STAGE2_DIR / "smoke_cig_clean_n960_e100_best.pt"
+# 前端下拉的默认选中值（相对各自目录的 value）
+DEFAULT_STAGE1_CHOICE = "face/yolov8n-face.pt"
+DEFAULT_STAGE2_CHOICE = "smoke_cig_clean_n960_e100_best.pt"
 
 
 def _parse_local_roots(raw: str, proj_root: Path):
@@ -79,6 +90,14 @@ class Config:
     )
 
     # ----- 模型 / 推理默认（M3 会话使用；先集中声明，保证口径单一）-----
+    # 模型分阶段目录（引用模块级常量），model_catalog 据此扫描；目录内新增 .pt 后前端下拉自动同步
+    MODELS_DIR = MODELS_DIR
+    STAGE1_DIR = STAGE1_DIR
+    FACE_DIR = FACE_DIR
+    HEAD_DIR = HEAD_DIR
+    STAGE2_DIR = STAGE2_DIR
+    DEFAULT_STAGE1_CHOICE = DEFAULT_STAGE1_CHOICE
+    DEFAULT_STAGE2_CHOICE = DEFAULT_STAGE2_CHOICE
     # 权重随 Web 工程内置在 models/（自包含）；可用 SMOKE_DEFAULT_WEIGHTS 指向训练基地新权重，免复制切换。
     # 注意（用户最终决定）：所有推理参数在“开始会话前”设定，会话运行中面板锁定、不做热更；
     # 要改参数先停止会话，修改后重新开始。
@@ -88,6 +107,18 @@ class Config:
     )
     DEFAULT_FACE_WEIGHTS = os.getenv("SMOKE_FACE_WEIGHTS", str(FACE_WEIGHTS))
     DEFAULT_FACE_CONF = float(os.getenv("SMOKE_FACE_CONF", "0.35"))
+    # 第一阶段检测器：默认 face 保持兼容；切 head 可覆盖 SMOKE_DETECTOR_KIND=head
+    DEFAULT_DETECTOR_KIND = os.getenv("SMOKE_DETECTOR_KIND", "face")
+    DEFAULT_HEAD_WEIGHTS = os.getenv("SMOKE_HEAD_WEIGHTS", str(HEAD_WEIGHTS))
+    DEFAULT_HEAD_CONF = float(os.getenv("SMOKE_HEAD_CONF", "0.35"))
+    # 第一阶段 ROI 固定像素外扩（不随框大小变化，避免近距离过大、远距离过小），前端可调
+    EXPAND_PAD_MIN = 0
+    EXPAND_PAD_MAX = 200
+    DEFAULT_EXPAND_PAD = int(os.getenv("SMOKE_EXPAND_PAD", "15"))
+    # 报警红框保持帧数：报警后短暂漏检仍显示红框，避免逐帧闪烁；0=关闭，前端可调
+    ALARM_HOLD_MIN = 0
+    ALARM_HOLD_MAX = 120
+    DEFAULT_ALARM_HOLD_FRAMES = int(os.getenv("SMOKE_ALARM_HOLD_FRAMES", "12"))
     DEFAULT_IMGSZ = int(os.getenv("SMOKE_DEFAULT_IMGSZ", "960"))
     DEFAULT_CONF = float(os.getenv("SMOKE_DEFAULT_CONF", "0.35"))
     DEFAULT_IOU = float(os.getenv("SMOKE_DEFAULT_IOU", "0.70"))
